@@ -3,7 +3,7 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "agentshield"
+name = "agentshield-api"
 version = "0.1.2"
 description = "Secure middleware SDK for AI agents."
 authors = [{name="Kristian Vazquez", email="kristian120304@gmail.com"}]
