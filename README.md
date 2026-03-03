@@ -1,6 +1,6 @@
 # AgentShield
 
-AgentShield is a lightweight Python SDK (v0.1.1) that provides a secure middleware
+AgentShield is a lightweight Python SDK (v0.1.4) that provides a secure middleware
 layer between AI agents and developer resources such as repositories,
 file systems, APIs, and tools.
 
@@ -53,9 +53,6 @@ python -m pytest -q
 ```
 
 You should see five tests covering core functionality.
-
-
-## Project Structure
 
 ### Extending detection
 
