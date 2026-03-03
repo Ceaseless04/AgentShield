@@ -10,6 +10,7 @@ authors = [{name="Kristian Vazquez", email="kristian120304@gmail.com"}]
 readme = "README.md"
 license = {text = "Apache"}
 
-[project.dependencies]
-yaml = "*"
-pytest = "*"
+dependencies = [
+    "PyYAML>=5.1",
+    "pytest>=7.0"
+]
