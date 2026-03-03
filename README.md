@@ -48,6 +48,25 @@ You should see five tests covering core functionality.
 
 ## Project Structure
 
+### Extending detection
+
+The :class:`agentshield.secret_scanner.SecretScanner` class ships with a
+set of common regexes (API keys, tokens, AWS formats, JWTs, etc.).  If
+you need to recognise additional secrets, simply:
+
+```python
+from agentshield.secret_scanner import SecretScanner
+import re
+
+scanner = SecretScanner()
+scanner.register_pattern("MY_SECRET", re.compile(r"mysecret=\S+"))
+```
+
+Patterns are applied in the order they are registered, and you can also
+provide a custom list during initialization.
+
+## Project Structure
+
 ```
 agentshield/
   __init__.py
@@ -67,4 +86,3 @@ LICENSE
 ## License
 
 This project is open source under the Apache license.
-🛡️ AgentShield is a zero-trust security layer that lets AI agents safely access repositories, tools, and APIs without exposing secrets or proprietary data.
