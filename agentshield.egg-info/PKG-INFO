@@ -3,11 +3,12 @@ Name: agentshield
 Version: 0.1.2
 Summary: Secure middleware SDK for AI agents.
 Author-email: Kristian Vazquez <kristian120304@gmail.com>
-License: Apache
+License-Expression: Apache-2.0
 Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: PyYAML>=5.1
-Requires-Dist: pytest>=7.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
 Dynamic: license-file
 
 # AgentShield
