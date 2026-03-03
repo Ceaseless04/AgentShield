@@ -34,12 +34,30 @@ class SecretScanner:
         ("ENV_VAR", re.compile(r"\b[A-Z0-9_]+=[^\n]+")),
         ("TOKEN", re.compile(r"(?i)token\s*=\s*\S+")),
         ("PASSWORD", re.compile(r"(?i)password\s*=\s*[^\s]+")),
+        # common provider keys
+        ("AWS_ACCESS_KEY", re.compile(r"AKIA[0-9A-Z]{16}")),
+        ("AWS_SECRET_KEY", re.compile(r"(?i)aws_secret_access_key\s*=\s*\S+")),
+        ("JWT", re.compile(r"[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+")),
     ]
     # entropy threshold for high-entropy strings
     ENTROPY_THRESHOLD: float = 4.5
 
     def __init__(self, patterns: List[tuple[str, Pattern]] | None = None) -> None:
+        """Initialize scanner with optional custom patterns list.
+
+        ``patterns`` should be a list of ``(name, regex)`` tuples.  If not
+        provided, the built-in defaults are used.  Callers may also call
+        :func:`register_pattern` on the instance to add detectors lazily.
+        """
         self.patterns = patterns or list(self.DEFAULT_PATTERNS)
+
+    def register_pattern(self, name: str, pattern: Pattern) -> None:
+        """Add a new named regex pattern to this scanner instance.
+
+        Useful for plugins or application-specific secrets.  Patterns are
+        evaluated in insertion order during ``scan``.
+        """
+        self.patterns.append((name, pattern))
 
     def scan(self, text: str) -> List[SecretMatch]:
         """Return a list of secrets found in ``text``.
