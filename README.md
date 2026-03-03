@@ -66,5 +66,5 @@ LICENSE
 
 ## License
 
-This project is open source under the MIT license.
+This project is open source under the Apache license.
 🛡️ AgentShield is a zero-trust security layer that lets AI agents safely access repositories, tools, and APIs without exposing secrets or proprietary data.
