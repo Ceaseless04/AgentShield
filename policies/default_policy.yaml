@@ -1,0 +1,8 @@
+# Default policy blocks known secret types and redacts them.
+allowed: []
+blocked:
+  - API_KEY
+  - TOKEN
+  - PASSWORD
+  - HIGH_ENTROPY
+block_mode: redact

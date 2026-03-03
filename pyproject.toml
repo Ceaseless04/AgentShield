@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentshield"
+version = "0.1.1"
+description = "Secure middleware SDK for AI agents."
+authors = [{name="Your Name", email="you@example.com"}]
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.dependencies]
+yaml = "*"
+pytest = "*"
