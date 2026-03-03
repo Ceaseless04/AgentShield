@@ -18,12 +18,21 @@ work.
 
 ## Getting Started
 
-Install via pip (when released) or add the package to your project:
+Install via pip (when released) or add the package to your project.
 
 ```bash
-pip install agentshield
+pip install agentshield-api
 ```
 
+*If you’re just trying the library out against a test index, you can
+install from TestPyPI with:*
+
+```bash
+pip install -i https://test.pypi.org/simple agentshield-api
+```
+
+Note that the distribution on PyPI is named **agentshield-api** (not
+`agentshield`) to avoid collisions with other projects.
 ```python
 from agentshield import SecureFS, OutputGuard
 
@@ -65,6 +74,38 @@ scanner.register_pattern("MY_SECRET", re.compile(r"mysecret=\S+"))
 Patterns are applied in the order they are registered, and you can also
 provide a custom list during initialization.
 
+## Custom policy
+
+By default the library loads a YAML file named `default_policy.yaml` from the
+`policies/` directory in the package.  You can override this behaviour by
+suppling your own `Policy` instance:
+
+```python
+from agentshield import SecureFS, Policy
+
+policy = Policy(allowed=["ENV_VAR"], blocked=["API_KEY"], block_mode="error")
+fs = SecureFS(policy=policy)
+``` 
+
+Or create your own YAML file and load it:
+
+```python
+p = Policy.load_from_file("/path/to/my_policy.yaml")
+guard = OutputGuard(policy=p)
+```
+
+The configuration schema is simple:
+
+```yaml
+allowed:
+  - ENV_VAR
+blocked:
+  - API_KEY
+block_mode: redact  # or error or warn
+```
+
+This makes it easy to adapt AgentShield to your project’s risk profile.
+
 ## Project Structure
 
 ```
@@ -79,6 +120,10 @@ policies/
   default_policy.yaml
 examples/
   example_usage.py
+tests/
+  test_*.py
+pyproject.toml
+requirements.txt
 README.md
 LICENSE
 ```
