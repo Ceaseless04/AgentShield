@@ -8,12 +8,14 @@ version = "0.1.2"
 description = "Secure middleware SDK for AI agents."
 authors = [{name="Kristian Vazquez", email="kristian120304@gmail.com"}]
 readme = "README.md"
-license = {text = "Apache"}
+license = "Apache-2.0"
 
 dependencies = [
     "PyYAML>=5.1",
-    "pytest>=7.0"
 ]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
 
 [tool.setuptools.packages.find]
 include = ["agentshield*"]
