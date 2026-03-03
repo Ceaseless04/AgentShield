@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentshield-api"
-version = "0.1.2"
+version = "0.1.3"
 description = "Secure middleware SDK for AI agents."
 authors = [{name="Kristian Vazquez", email="kristian120304@gmail.com"}]
 readme = "README.md"
