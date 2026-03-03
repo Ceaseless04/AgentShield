@@ -4,8 +4,9 @@ name: CI
 
 on:
   push:
-    # run on every branch – test job will always run, publish only on main
+    # run tests on every branch and publish only when a tag is created
     branches: ['*']
+    tags: ['*']                   # trigger on any tag push (e.g. v0.1.5)
   pull_request:
     branches: ['*']
   workflow_dispatch:
@@ -40,14 +41,13 @@ jobs:
     name: Build & publish
     needs: test
     runs-on: ubuntu-latest
-    # only run automatically when main is updated, or when the workflow
-    # is manually dispatched (for dev/test uploads)
+    # only run automatically when a tag is pushed, or when manually dispatched
     if: >
-      github.ref == 'refs/heads/main' ||
+      startsWith(github.ref, 'refs/tags/') ||
       github.event_name == 'workflow_dispatch'
     environment:
-      # optional: create a "production" / "dev" environment in repo settings
-      name: ${{ github.ref == 'refs/heads/main' && 'production' || 'dev' }}
+      # optional: use a production environment for real releases
+      name: ${{ startsWith(github.ref, 'refs/tags/') && 'production' || 'dev' }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
