@@ -1,27 +1,13 @@
-# .github/workflows/python-package.yml
-
 name: CI
 
 on:
   push:
-    # run on every branch – test job will always run, publish only on main
-    branches: ['*']
+    branches: [ main ]
   pull_request:
-    branches: ['*']
-  workflow_dispatch:
-    inputs:
-      publish_to:
-        description: 'Where to publish package'
-        required: true
-        default: 'pypi'
-        type: choice
-        options:
-          - pypi
-          - testpypi
+    branches: [ main ]
 
 jobs:
-  test:
-    name: Run tests
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,40 +19,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run pytest
-        run: python -m pytest -q
-
-  publish:
-    name: Build & publish
-    needs: test
-    runs-on: ubuntu-latest
-    # only run automatically when main is updated, or when the workflow
-    # is manually dispatched (for dev/test uploads)
-    if: >
-      github.ref == 'refs/heads/main' ||
-      github.event_name == 'workflow_dispatch'
-    environment:
-      # optional: create a "production" / "dev" environment in repo settings
-      name: ${{ github.ref == 'refs/heads/main' && 'production' || 'dev' }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - name: Build wheel/sdist
+      - name: Run tests
         run: |
-          python -m pip install --upgrade build
-          python -m build
-      - name: Publish to PyPI/TestPyPI
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && \
-             [ "${{ github.event.inputs.publish_to }}" = "testpypi" ]; then
-            repo="https://test.pypi.org/legacy/"
-            token="${{ secrets.TEST_PYPI_API_TOKEN }}"
-          else
-            repo="https://upload.pypi.org/legacy/"
-            token="${{ secrets.PYPI_API_TOKEN }}"
-          fi
-          python -m pip install --upgrade twine
-          python -m twine upload --repository-url "$repo" -u __token__ -p "$token" dist/*
+          python -m pytest -q
